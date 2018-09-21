@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容移动设备 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+    <title>{{data[0].name}}</title>
+    <link rel="stylesheet" href="/followorder/styles/select.css">
+    <link rel="stylesheet" href="/followorder/styles/technical_indicators.css">
+
+</head>
+<body>
+<div class="technical_indicators target-details">
+    <div id="fun" style="display: none">{{data[0].fun}}</div>
+    {{each data}}
+    {{ set temp = right($value.pars)}}
+        <div>
+            <div class="arrow-panel">
+                <div class="arrow-left"> Applied price</div>
+                <div style="background: white;position: relative;z-index: 1" class="applied">{{ temp.rightData }}</div>
+            </div>
+            {{each temp.lines }}
+            <div class="arrow-panel">
+                <div class="arrow-left">{{ $value.key }}</span></div>
+                <input type="number" value="{{ $value.value }}" name="{{ $value.key }}">
+            </div>
+            {{/each}}
+        </div>
+    {{/each}}
+</div>
+<button class="btn" onclick="chooseBtn()">确定</button>
+<button class="btn btn-bg" onclick="history.go(-1)">取消</button>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function chooseBtn() {
+        let chooseArr = JSON.parse(localStorage.getItem("data"));
+        let _input = $('.target-details').find('input[name]');
+        let pars = {};
+        for (let i = 0;i < _input.length; i++){
+            let inputNode = $(_input[i]);
+            let name = inputNode.attr('name');
+            let val = inputNode.val();
+            if (val) {
+                pars[name] = Number(val);
+            }
+        }
+        var cc = $(".applied").html().split(',')
+        for(var i = 0;i<cc.length;i++){
+            pars[cc[i]] = true
+        }
+        let name = $(document).attr("title");
+        let fun = $('#fun').html();
+        let indexs = {
+            "name": name,
+            "fun": fun,
+            "pars": pars
+        };
+        var chooseIndexs = chooseArr['indexs'],
+            index = -1;
+        for(var i = 0, len = chooseIndexs.length; i < len; i++) {
+            if(name === chooseIndexs[i].name) {
+                index = i;
+                break;
+            }
+        }
+        if(index === -1) { // 不包含, 新增
+            chooseIndexs.push(indexs);
+        } else { // 包含, 替换
+            chooseIndexs[index] = indexs;
+        }
+        chooseArr.indexs = chooseIndexs;
+        localStorage.setItem("data",JSON.stringify(chooseArr));
+        history.go(-1)
+    }
+
+
+</script>
+</body>
+</html>

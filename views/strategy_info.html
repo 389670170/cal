@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <meta name="description" content="策略信息 -- 总览">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>{{ name }}</title>
+  <link rel="stylesheet" href="/followorder/styles/strategy_info.css">
+</head>
+<body class="strategy-info">
+  <div class="top">
+    <div class="tab1-panel">
+      <div class="tab1-item tab1-active">总览<div class="tab1-divider"></div></div>
+      <div class="tab1-item" onclick="location.href='/followorder/strategy/returnNowOrder?nameNum={{nameNum}}'">订单</div>
+      <div class="tab1-item" onclick="location.href='/followorder/strategy/subscriber?sendNumber={{nameNum}}'">订阅者</div>
+    </div>
+    <div class="profit-ratio">
+      <p class="profit-num">{{ ((get(nameNum, 'syl') * 100).toFixed(4)) + '%' }}</p>
+      <span class="label">年收益率</span>
+    </div>
+    <div class="profit-info-wrapper">
+      <div class="profit-info-item">
+        <p>{{ profitFactor.toFixed(2) }}</p>
+        <span class="label">净利润因子</span>
+      </div>
+      <div class="info-item-divider"></div>
+      <div class="profit-info-item">
+        <p>{{ get(nameNum, 'zsy').toFixed(2) }}</p>
+        <span class="label">总收益/净值</span>
+      </div>
+    </div>
+  </div>
+  <div class="info-panel">
+    <div class="info-tips">*交易策略：本策略是短周期策略，基本不做隔夜单。订阅者，务必自行计算风险进行下单。</div>
+    <div class="slide-panel">
+      <div id="slide" class="info-wrapper">
+        <div class="info-col-item">
+          <div class="info-item-row">
+            <div>亏损交易</div>
+            <div>{{ get(nameNum, 'ksjy') }}({{ get(nameNum, 'ksjyl').toFixed(2) }})</div>
+          </div>
+          <div class="info-item-row">
+            <div>做多盈利交易</div>
+            <div>{{ get(nameNum, 'zdyl') }}({{ get(nameNum, 'zdyll').toFixed(2) }})</div>
+          </div>
+          <div class="info-item-row">
+            <div>做空盈利交易</div>
+            <div>{{ get(nameNum, 'zkyl') }}({{ get(nameNum, 'zkyll').toFixed(2) }})</div>
+          </div>
+          <div class="info-item-row">
+            <div>平均盈利</div>
+            <div>${{ (averageProfit + 10).toFixed(2) }}</div>
+          </div>
+        </div>
+        <div class="info-col-item">
+          <div class="info-item-row">
+            <div>平均亏损</div>
+            <div>${{ (averageLoss -5).toFixed(2) }}</div>
+          </div>
+          <div class="info-item-row">
+            <div>最大盈利点数</div>
+            <div>{{ get(nameNum, 'zdylds').toFixed(2) }}点</div>
+          </div>
+          <div class="info-item-row">
+            <div>最大亏损点数</div>
+            <div>{{ get(nameNum, 'zdksds').toFixed(2) }}点</div>
+          </div>
+          <div class="info-item-row">
+            <div>平均盈利点数</div>
+            <div>{{ get(nameNum, 'pjylds').toFixed(2) }}点</div>
+          </div>
+        </div>
+        <div class="info-col-item">
+          <div class="info-item-row">
+            <div>平均亏损点数</div>
+            <div>{{ get(nameNum, 'pjksds').toFixed(2) }}点</div>
+          </div>
+          <div class="info-item-row">
+            <div>盈亏点数</div>
+            <div>{{ get(nameNum, 'ykds').toFixed(2) }}点</div>
+          </div>
+          <div class="info-item-row">
+            <div>平均持仓时间</div>
+            <div>{{ aveTime.toFixed(1) }}时</div>
+          </div>
+          <div class="info-item-row">
+            <div>夏普比例</div>
+            <div>{{ get(nameNum, 'x').toFixed(2) }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="dot-panel">
+        <a class="dot active"></a>
+        <a class="dot"></a>
+        <a class="dot"></a>
+      </div>
+    </div>
+  </div>
+  <div class="chart-panel">
+    <div class="module-title-panel">
+      <p class="module-title">收益图</p>
+    </div>
+    <div class="chart-container"><div id="chart"></div></div>
+  </div>
+  {{if (vip === 1)}}
+  <div class="button-group">
+    {{if dytype === 1}}
+    <button id="subscribBtn" class="btn scrib-btn-disabled" disabled>订阅</button>
+    {{else if dytype === 0}}
+    <button id="subscribBtn" class="btn subscrib-btn">订阅</button>
+    {{/if}}
+  </div>
+  {{/if}}
+  <script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.common.min.js"></script>
+  <script src="/followorder/js/dateformat.js"></script>
+  <script src="/followorder/js/motion.min.js"></script>
+  <script src="/followorder/js/axreq.min.js"></script>
+  <script>
+    var chartData = {{@ stringify(pics) }};
+    var nameNum = '{{ nameNum }}';
+  </script>
+  <script src="/followorder/js/strategy_info.js"></script>
+</body>
+</html>

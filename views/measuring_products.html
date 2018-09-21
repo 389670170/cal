@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容移动设备 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+    <title>自定义策略</title>
+    <link rel="stylesheet" href="/followorder/styles/select.css">
+    <link rel="stylesheet" href="/followorder/styles/measuring_products.css">
+</head>
+<body>
+<div class="measuring-products">
+    <div class="steps">
+        <p class="steps-panal">
+            <span class="circle act-circle act-circle-one"> &nbsp;</span>
+            <i class="line act-line"></i>
+            <span class="circle act-circle">2</span>
+            <i class="line"></i>
+            <span class="circle">3</span>
+        </p>
+        <p class="text-panal">
+            <b class="text-context-left act-text">选择产品</b>
+            <b class="text-context-center act-text">测量产品</b>
+            <b class="text-context-right">完成</b>
+        </p>
+    </div>
+    <div class="parameter">
+        <div class="arrow-panel">
+            <div class="arrow-left">周期</div>
+            <div class="unit-select">
+                <select class="">
+                    <option value="1">1分钟</option>
+                    <option value="5" selected="selected">5分钟</option>
+                    <option value="15">15分钟</option>
+                    <option value="30">半小时</option>
+                </select>
+            </div>
+        </div>
+
+        {{ each mesg }}
+        <div class="arrow-panel" onclick="location.href='/followorder/seniormember/return_technical_indicators?type={{ $value.type }}'">
+            <div class="arrow-left">{{ $value.type }}</div>
+            <div class="arrow-right"></div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="bottomgroup">
+        <button class="btn" onclick="history.go(-1)">上一步</button>
+        <button class="btn btn-success" onclick="nextClick()"> 下一步</button>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function nextClick() {
+        let chooseArr = JSON.parse(localStorage.getItem("data"));
+        chooseArr['period'] = $('select').val();
+        localStorage.setItem("data",JSON.stringify(chooseArr));
+        let indexs = chooseArr.indexs;
+        if(!indexs || indexs.length === 0) {
+          alert('请设置技术指标！');
+        } else {
+          location.href='/followorder/seniormember/return_choose_finish';
+        }
+    }
+</script>
+</body>
+</html>

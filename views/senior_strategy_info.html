@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+    <meta name="renderer" content="webkit">
+    <meta name="description" content="策略信息 -- 总览">
+    <!-- 兼容移动设备 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+    <title>高级会员策略</title>
+    <link rel="stylesheet" href="/followorder/styles/strategy_info.css">
+</head>
+<body class="strategy-info">
+<div class="top">
+    <div class="profit-ratio senior-profit-ratio">
+        <p class="profit-num">{{annualized}}%</p>
+        <span class="label">预计年化</span>
+    </div>
+    <div class="profit-info-wrapper">
+        <div class="profit-info-item">
+            <p>{{Nprofit}}</p>
+            <span class="label">净利</span>
+        </div>
+        <div class="info-item-divider"></div>
+        <div class="profit-info-item">
+            <p>{{Gprofit}}</p>
+            <span class="label">毛利</span>
+        </div>
+        <div class="info-item-divider"></div>
+        <div class="profit-info-item">
+            <p>{{Hloss}}</p>
+            <span class="label">毛损</span>
+        </div>
+        <div class="info-item-divider"></div>
+        <div class="profit-info-item">
+            <p>{{Mretracement}}%</p>
+            <span class="label">最大回撤</span>
+        </div>
+    </div>
+</div>
+<div class="info-panel">
+    <div class="info-tips">*交易策略：以下数据是根据历史数据做出的回测结果，仅作参考。请务必自行计算风险进行下单。</div>
+</div>
+<div class="chart-panel">
+    <div class="module-title-panel">
+        <p class="module-title">回测图</p>
+    </div>
+    <div class="chart-container"><div id="chart"></div></div>
+</div>
+<div class="chart-panel">
+    <div class="module-title-panel none-padding">
+        <p class="module-title none-padding-top">财务管理</p>
+    </div>
+    <div class="chart-container">
+        <div class="info-col-item">
+            <div class="info-item-row">
+                <div>平均利润</div>
+                <div>{{averageprofit}}元</div>
+            </div>
+            <div class="info-item-row">
+                <div>平均亏损</div>
+                <div>{{averageLoss}}元</div>
+            </div>
+            <div class="info-item-row">
+                <div>夏普比率</div>
+                <div>{{sharpe}}</div>
+            </div>
+            <div class="info-item-row">
+                <div>预计年回报</div>
+                <div>{{annualizedreturn}}元</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="button-group-bottom">
+    <button class="delBtn" onclick="location.href='/followorder/seniormember/cancel_training'">删除策略</button>
+</div>
+<div id="cc" style="display: none">{{chartData}}</div>
+<script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.common.min.js"></script>
+<script src="/followorder/js/dateformat.js"></script>
+<script src="/followorder/js/motion.min.js"></script>
+<script>
+    var datas = JSON.parse(document.getElementById('cc').innerText);
+</script>
+<script src="/followorder/js/senior_strategy_info.js"></script>
+</body>
+</html>

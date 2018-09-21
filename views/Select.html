@@ -1,0 +1,5 @@
+<select {{if clazz}} class="{{ clazz }}" {{/if}} {{if name}} name="{{ name }}"{{/if}}{{if id}} id="{{ id }}"{{/if}}>
+    {{each options}}
+    <option value="{{ $value }}"{{if $value === curr}} selected {{/if}}>{{ $value }}</option>
+    {{/each}}
+</select>

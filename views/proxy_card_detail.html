@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>分享{{ name }}</title>
+  <link rel="stylesheet" href="/followorder/styles/proxy_card_detail.css">
+</head>
+<body class="proxy-card-detail">
+<div class="card-panel">
+  <div class="card-info-group">
+    <div class="card-type">{{ name }}</div>
+    <div class="stock">库存：{{ stock }}张</div>
+  </div>
+</div>
+<div class="tip-info">
+  *您即将生成一张{{ name }}，请确保收到相应款项。点击右上角分享给好友。
+</div>
+
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="/followorder/js/har.min.js"></script>
+<script>
+    // 权限验证配置
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ wxconfig.appId }}', // 必填，公众号的唯一标识
+        timestamp: {{ wxconfig.timestamp }}, // 必填，生成签名的时间戳
+    nonceStr: '{{ wxconfig.nonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxconfig.signature }}',// 必填，签名
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表
+    })
+    wx.ready(function() {
+        var baseShareInfo = {
+            title: 'AI智汇圈',
+            desc: '点击激活AI智汇圈{{ name }}',
+            link: '{{ link }}',
+            imgUrl: location.protocol + '//' + location.host + '/followorder/images/logo.png',
+            success: function() { // 分享成功
+                har.post('/followorder/proxy/shareSuccess', { _id: '{{ _id }}', type: 1 });
+            },
+            cancel: function() { // 用户取消分享
+                har.post('/followorder/proxy/shareSuccess', { _id: '{{ _id }}', type: 0 });
+            }
+        };
+
+        wx.onMenuShareTimeline(baseShareInfo); // 分享到朋友圈
+        wx.onMenuShareAppMessage(baseShareInfo); // 分享给朋友
+        wx.onMenuShareQQ(baseShareInfo); // 分享到QQ
+        wx.onMenuShareWeibo(baseShareInfo); // 分享到腾讯微博
+        wx.onMenuShareQZone(baseShareInfo); // 分享到QQ空间
+    });
+
+    wx.error(function(res) {
+        console.error(res);
+    });
+</script>
+</body>
+</html>

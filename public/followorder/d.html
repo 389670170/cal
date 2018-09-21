@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>Title</title>
+</head>
+<body>
+<div id="dd">
+  <button onclick="location.href='/followorder/tpl'">tpl</button>
+  <script src="/followorder/js/axreq.js"></script>
+  <script>
+    /* 解决多点几次标签栏后, 点返回按钮, 一直在当页的问题 */
+    // 获取上一次保存的 销售页面的数目
+    // var spc = sessionStorage.getItem('spc') || 0;
+    // console.log('old spc: ' + spc);
+    // spc++;
+    // console.log('new spc: ' + spc);
+    // sessionStorage.setItem('spc', spc); // 重新纪录数目
+    // console.log('sure new spc: ' + sessionStorage.getItem('spc'));
+    //
+    // // 监听返回事件
+    // window.onpopstate = function(event) {
+    //   alert('返回：' + spc + ' = ' + sessionStorage.getItem('spc'));
+    //   sessionStorage.removeItem('spc');
+    //   var i = -(2 * spc - 1);
+    //   alert(i);
+    //   history.go(i);
+    // };
+    // // 让页面触发 popstate
+    // history.pushState('forward', null, '#');
+  </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>支付</title>
+  <style>
+    html,body{background: #f8f9fb}
+    .pay-box{
+      width: 96%;
+      height: 295px;
+      margin: 0 auto;
+      background: white;
+      text-align: center;
+    }
+    .pay-box p{
+      margin: 0;
+    }
+    .pay-box p:first-child{
+      color: #4998F4;
+      font-size: 16px;
+      padding-top: 27.5px;
+      height: 16px;
+    }
+    .pay-box p:nth-child(2){
+      color: #999999;
+      font-size: 11px;
+      margin-top: 35px;
+    }
+    .pay-box p:nth-child(2) span{
+      width: 9%;
+      height: 0.5px;
+      background: #dedede;
+      display: inline-block;
+      position: relative;
+      top: -3px;
+    }
+    .pay-box p:nth-child(2) em{
+      display: inline-block;
+      font-style: normal;
+      margin: 0 3%;
+    }
+    .pay-box p:nth-child(3){
+      font-size: 25px;
+      color: #333333;
+      font-weight: bolder;
+      margin-top: 25px;
+      height: 46px;
+    }
+    .pay-box p:nth-child(3) span{
+      font-size: 40px;
+    }
+    .pay-box p:nth-child(3) em{
+      font-style: normal;
+      position: relative;
+      top: -1px;
+      right: 5px;
+    }
+    .surePay{
+      display: block;
+      width: 80%;
+      margin: 0 auto;
+      margin-top: 40px;
+      height: 42px;
+      border-radius: 4px;
+      background: #4998F4;
+      color: white;
+      font-size: 15px;
+      border: 0;
+      outline: none;
+    }
+    .cancelPay{
+      border: 0;
+      background: white;
+      width: 100%;
+      margin-top: 15px;
+      font-size: 12px;
+      color: #999999;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+<div class="pay-box">
+  <p>购买会员卡</p>
+  <p><span></span><em>支付金额</em><span></span></p>
+  <p><em>￥</em><span>{{allMoney}}</span></p>
+  <button class="surePay" onclick="surePay()">确认支付</button>
+  <button class="cancelPay" onclick="history.go(-1)">取消</button>
+</div>
+  <script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+  <script>
+    var redirect_url = '{{ redirect_url }}'; // 支付完成后的跳转地址
+    var type = '{{ type }}'; // 支付完成后的跳转地址
+
+    // 确认支付
+    function surePay() {
+	  // 下单, 下单成功后, 唤起支付
+	  $.ajax({
+        url: '/followorder/person/buyVip',
+        type: 'POST',
+        data: JSON.stringify({money:{{ allMoney }}}),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function(res) {
+          wxPay(res.paydata);
+        }
+      });
+	}
+	
+	// 微信支付
+	function wxPay(paydata) {
+	  // 唤起微信支付
+	  WeixinJSBridge.invoke(
+		'getBrandWCPayRequest', paydata, function(res){
+		  if(res.err_msg === "get_brand_wcpay_request:ok" ) { // 支付成功
+              location.href = redirect_url + "?type=" + type;
+		  } else { // 支付失败
+			alert(res.err_msg);
+		  }
+		}
+	  );
+	}
+  </script>
+</body>
+</html>

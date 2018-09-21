@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>代理中心</title>
+  <link rel="stylesheet" href="/followorder/styles/proxy_center.css">
+</head>
+<body class="proxy-center">
+  <div class="top">
+    <div class="user-wrapper">
+      <div>
+        <img class="avatar" alt="" src="{{ head }}">
+        <span class="name">{{ name }}</span>
+      </div>
+      <div class="btn-wrapper">
+        <button class="btn cash-btn" onclick="location.href='/followorder/proxy/findBuy'">采购</button>
+      </div>
+    </div>
+    <div class="allow-cash-wrapper">
+      <span class="allow-cash">{{ sale || 0 }}</span><br>本月销售月卡(张)
+    </div>
+    <div class="cashed-wrapper">
+      <span class="allow-cashed">{{ reserve || 0 }}</span><br>库存月卡(张)
+    </div>
+  </div>
+  <div class="grid-panel">
+    <div class="grid-item" onclick="location.href='/followorder/proxy/buyMx'">
+      <div class="icon-text">
+        <div class="icon-cashes"></div>
+        <div class="text">
+          <span class="item-num">{{ buyMx || 0 }}</span><br>
+          采购明细(笔)
+        </div>
+      </div>
+    </div>
+    <div class="grid-item" onclick="location.href='/followorder/proxy/saleMx/0'">
+      <div class="icon-text">
+        <div class="icon-tcd"></div>
+        <div class="text">
+          <span class="item-num">{{ saleMx || 0 }}</span><br>
+          销售明细(笔)
+        </div>
+      </div>
+    </div>
+    <div class="grid-item" onclick="location.href='/followorder/proxy/ourReserve'">
+      <div class="icon-text">
+        <div class="icon-customer"></div>
+        <div class="text">
+          <span class="item-num">{{ reserveMx || 0 }}</span><br>
+          我的库存(张)
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

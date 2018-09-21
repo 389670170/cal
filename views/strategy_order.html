@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <meta name="description" content="策略信息 -- 订单">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>{{ name }}</title>
+  <link rel="stylesheet" href="/followorder/styles/strategy_info.css">
+</head>
+<body class="strategy-order">
+  <div class="tab1-panel">
+    <div class="tab1-item" onclick="location.href='/followorder/strategy/returnDetail?nameNum={{nameNum}}'">总览</div>
+    <div class="tab1-item tab1-active">订单<div class="tab1-divider"></div></div>
+    <div class="tab1-item" onclick="location.href='/followorder/strategy/subscriber?sendNumber={{nameNum}}'">订阅者</div>
+  </div>
+  <div class="tab2-panel">
+    <div class="tab2-item tab2-item-divider{{if (type === 1)}} tab2-active{{/if}}" onclick="location.href='/followorder/strategy/returnNowOrder?nameNum={{nameNum}}'">持仓喊单</div>
+    <div class="tab2-item{{if (type === 2)}} tab2-active{{/if}}" onclick="location.href='/followorder/strategy/returnHistoryOrder?nameNum={{nameNum}}'">历史喊单</div>
+  </div>
+  {{if (vip === 1)}}
+  <table class="strategy-order-table">
+    <thead>
+      <tr>
+        <th>品种</th>
+        <th>方向</th>
+        <th>点位</th>
+        <th>入场时间</th>
+      </tr>
+    </thead>
+    <tbody>
+    {{each order}}
+    <tr>
+      <td>{{ $value.symbol }}</td>
+      <td>{{ $value.direction }}</td>
+      <td>{{ $value.money }}</td>
+      <td>{{@ formatDate($value.time) }}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  <div class="button-group">
+    {{if dytype === 1}}
+    <button id="subscribBtn" class="btn scrib-btn-disabled" disabled>订阅</button>
+    {{else if dytype === 0}}
+    <button id="subscribBtn" class="btn subscrib-btn">订阅</button>
+    {{/if}}
+  </div>
+  {{else if (vip === 0)}}
+  <p style="text-align: center">您还不是会员，不能查看喊单信息！</p>
+  {{/if}}
+  <script src="/followorder/js/axreq.min.js"></script>
+  <script>
+    var nameNum = '{{nameNum}}';
+    /**
+     * 节点获取
+     * @param selector  选择器
+     * @param t         id(default) || class
+     * @returns {*}
+     */
+    function $(selector, t) {
+      t = t || 'id';
+      if(t === 'id') {
+        return document.getElementById(selector);
+      } else {
+        return document.getElementsByClassName(selector);
+      }
+    }
+
+    // 订阅事件
+    $('subscribBtn').addEventListener('click', function() {
+      var _this = this;
+      axreq.get('/followorder/strategy/subscription?sendNumber=' + nameNum, null, function(res) {
+        _this.outerHTML = '<button class="btn subscrib-btn btn-disabled" disabled>已订阅</button>'
+      });
+    });
+  </script>
+</body>
+</html>

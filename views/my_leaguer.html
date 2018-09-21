@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>我的会员</title>
+  <link rel="stylesheet" href="/followorder/styles/my_leaguer.css">
+</head>
+<body class="my-leaguer">
+  <div class="top">
+    <img src="/followorder/images/leaguer_top_img.jpg" alt="VIP" class="vip-img">
+
+    {{if vipType === 0}}
+    <div class="module-title-panel">
+      <div class="module-title">普通会员</div>
+      <div class="leaguer-card-group">
+        {{each cards}}
+        {{if $value.type === 0}}
+        <div class="card-item">
+          <label for="cards{{$index}}">{{ $value.name }}<span class="amount">￥{{ $value.price }}</span></label>
+          <input id="cards{{$index}}" type="radio" name="vip"  value="{{ $value._id }}" data-money="{{ $value.price }}">
+        </div>
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+    <div class="module-title-panel">
+      <div class="module-title">高级会员</div>
+      <div class="leaguer-card-group">
+        {{each cards}}
+        {{if $value.type === 1}}
+        <div class="card-item">
+          <label for="cards{{$index}}">{{ $value.name }}<span class="amount">￥{{ $value.price }}</span></label>
+          <input id="cards{{$index}}" type="radio" name="vip" value="{{ $value._id }}" data-money="{{ $value.price }}">
+        </div>
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="prompt-info">
+      <p>*高级会员:</p>
+      <p>成为高级会员，无需编程，快速生成您自己的AI策略</p>
+      <p>*普通会员:</p>
+      <p>成为普通会员，您可以在我们提供的策略池中任意选择心仪的策略，订阅该策略即可收到策略提供的交易信号</p>
+    </div>
+  </div>
+  <div class="bottom-panel">
+    <div class="amount-area amount">￥<span id="amount-txt">0</span></div>
+    <button id="submit-btn" class="btn btn-bg" disabled>立即支付</button>
+  </div>
+  <script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+  <script src="/followorder/js/har.min.js"></script>
+  <script src="/followorder/js/my_leaguer.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容移动设备 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+    <title>自定义策略</title>
+    <link rel="stylesheet" href="/followorder/styles/measuring_products.css">
+</head>
+<body>
+<div class="measuring-products choose-product">
+    <div class="steps">
+        <p class="steps-panal">
+            <span class="circle act-circle act-circle-one"> &nbsp;</span>
+            <i class="line"></i>
+            <span class="circle">2</span>
+            <i class="line"></i>
+            <span class="circle">3</span>
+        </p>
+        <p class="text-panal">
+            <b class="text-context-left act-text">选择产品</b>
+            <b class="text-context-center">测量产品</b>
+            <b class="text-context-right">完成</b>
+        </p>
+    </div>
+    <div class="parameter">
+        <!--<div class="nav">-->
+            <!--<span class="act-a"><a href="#currency">货币</a></span>-->
+            <!--<span><a href="#futures">期货</a></span>-->
+            <!--<span><a href="#metal" class="last-a">贵金属</a></span>-->
+        <!--</div>-->
+        <div class="container">
+            {{each product}}
+            <div class="arrow-panel" onclick="itemClick('{{ $value.product }}')">
+                <div class="arrow-left">{{ $value.product }}<br>{{ $value.name }}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function itemClick(product) {
+        let _product = product
+        let chooseArr = {
+            product : _product,
+            period:"5",
+            threshold: [],
+            indexs : []
+        };
+        localStorage.setItem("data",JSON.stringify(chooseArr));
+        location.href='/followorder/seniormember/return_measuring_products';
+    }
+</script>
+</body>
+</html>

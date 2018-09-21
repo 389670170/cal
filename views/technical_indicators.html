@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+    <meta name="renderer" content="webkit">
+    <!-- 兼容移动设备 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+    <title>技术指标</title>
+    <link rel="stylesheet" href="/followorder/styles/technical_indicators.css">
+</head>
+<body>
+    <div class="technical_indicators">
+        {{each mesg}}
+        <div class="arrow-panel">
+            <div class="arrow-panel-one" id="chooseBtn{{$index}}" data-id="{{ $value._id.toHexString() }}" onclick="chooseBtn('{{ $index }}')"></div>
+            <div class="arrow-left" onclick=" location.href='/followorder/seniormember/return_target_details?_id={{ $value._id.toHexString() }}'" data-id="{{ $value._id }}">{{ $value.name }}</div>
+        </div>
+         {{/each}}
+    </div>
+    <button class="btn width-long" onclick="history.go(-1)">确定</button>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    let chooseArr = JSON.parse(localStorage.getItem("data"));
+    let data2 = [];
+    let indexs = chooseArr.indexs;
+    for (let i = 0; i<indexs.length; i++) {
+        data2.push(indexs[i].name);
+    }
+    let $div = $('.technical_indicators').find('.arrow-left')
+    for (let i = 0;i < $div.length; i++) {
+        if($.inArray($($div[i]).html() ,data2) != -1){
+            $($div[i]).parent().find('.arrow-panel-one').attr('class','arrow-panel-one hasImg');
+        }
+    }
+    function chooseBtn(index) {
+        var choose = 'chooseBtn'+ index
+        var noImg = $('#'+choose).attr('class');
+        var hasThis = $('#'+choose).next().html()
+        if (noImg === 'arrow-panel-one'){
+            $('#'+choose).attr('class','arrow-panel-one hasImg')
+            var _id = $('#'+choose).attr('data-id')
+            $.get('/followorder/seniormember/find_target_details?_id='+_id, function (res) {
+                console.log(res)
+                delete res.mesg._id
+                chooseArr['indexs'].push(res.mesg);
+                localStorage.setItem("data",JSON.stringify(chooseArr));
+            })
+        }else {
+            $('#'+choose).attr('class','arrow-panel-one')
+            var chooseIndexs = chooseArr['indexs'];
+            for(var i = 0, len = chooseIndexs.length; i < len; i++) {
+                if(hasThis === chooseIndexs[i].name) {
+                    chooseIndexs.splice(i,1)
+                    break;
+                }
+            }
+            localStorage.setItem("data",JSON.stringify(chooseArr));
+
+        }
+
+    }
+
+</script>
+</html>

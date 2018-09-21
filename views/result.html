@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>{{ title || '激活成功' }}</title>
+  <style>
+    body{margin:0;padding:0;background: white}.container{margin-top:50px;text-align:center}.title{font-size:24px}.success{color:#6EE057}.error{color:#666}.desc{font-size:13px;color:#999}
+	.btn-group{position:fixed;bottom:50px;left:0;right:0;text-align:center}.btn{width:90%;height:50px;line-height:50px;background-color:transparent;outline:none;border:1px solid #4998F4;color:#4998F4;border-radius:3px;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="/followorder/images/{{ status || 'success' }}_icon.jpg" alt="{{ title || '激活成功' }}" width="114" height="130">
+    <p class="title {{ status || 'success' }}">{{ title || '激活成功' }}</p>
+    <p class="desc">{{ desc }}</p>
+  </div>
+  <div class="btn-group">
+	<button class="btn" onclick="location.href='{{url}}'">{{ btnText }}</button>
+  </div>
+</body>
+</html>

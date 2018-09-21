@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>代理申请</title>
+  <link rel="stylesheet" href="/followorder/styles/proxy_apply.css">
+</head>
+<body class="proxy-apply">
+  <div class="username">用户昵称：{{ nickname }}</div>
+  <form class="form-control" method="post" action="/followorder/proxy/application">
+    <div class="form-row">
+      <div class="icon icon-user"></div>
+      <label for="name">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</label>
+      <input id="name" name="name" type="text" class="input" required>
+    </div>
+    <div class="form-row form-row_2">
+      <div class="icon icon-phone"></div>
+      <label for="phone">手机号：</label>
+      <input id="phone" name="phone" type="text" maxlength="11" class="input" required>
+    </div>
+    <input type="submit" value="提交申请" class="btn submit-btn">
+  </form>
+</body>
+</html>

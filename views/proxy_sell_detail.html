@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>销售明细</title>
+  <link rel="stylesheet" href="/followorder/styles/proxy_buy_detail.css">
+</head>
+<body>
+
+<div class="psd">
+
+  <div class="brokerage-wrapper">
+    <div>累计采购金额</div>
+    <div>{{ allSale }}元</div>
+  </div>
+
+  <div class="tab-layout">
+    {{each cards}}
+    {{if $index <= 3}}
+    <input id="tab{{ $index }}" type="radio" name="tab" class="tab-radio" onchange="location.href='/followorder/proxy/saleMx/{{ $value._id }}'"{{if type === $value._id}} checked{{/if}}>
+    <label for="tab{{ $index }}" class="tab-item tab-item-divider">{{ $value.name }}</label>
+    {{/if}}
+    {{/each}}
+    <div id="more-btn" class="tab-item tab-item-last"></div>
+  </div>
+
+  {{each sale }}
+  <div class="psd-row">
+    <div>
+      <span>{{ formatDate($value.time) }}</span><br>
+      <span class="join-time">{{ $value.name }}：{{ $value.carNumber }}</span>
+    </div>
+    <div class="tar">
+      <span class="type">{{ (($value.type === 0) ? '未激活' : '已激活') }}</span><br>
+      <span>&nbsp;</span>
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+<div class="dialog">
+  <div class="dialog-main">
+    <div class="dialog-header">
+      <p>筛选</p>
+      <div class="close-btn">X</div>
+    </div>
+    <div class="dialog-container more-tag-content">
+      <div id="mig"></div>
+      <div class="more-btn-group">
+        <button id="bms" class="btn btn-normal btn-more-sure">确定</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 更多, 筛选条件中的 条件 列表项的模板 -->
+<script id="mi-tpl" type="text/html">
+  {{each cards}}
+  <div class="more-tab-item">
+    <input id="mt{{ $index }}" type="radio" class="more-radio" name="mradio" value="{{ $value._id }}"{{if type === $value._id}} checked{{/if}}>
+    <label for="mt{{ $index }}" class="more-tab-label">{{ $value.name }}</label>
+  </div>
+  {{/each}}
+</script>
+<script>var type = '{{ type }}';</script>
+<script src="/followorder/js/proxy_sell_detail.js"></script>
+</body>
+</html>

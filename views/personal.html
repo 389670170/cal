@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>个人中心</title>
+  <link rel="stylesheet" href="/followorder/styles/personal.css">
+</head>
+<body class="personal">
+  <div class="top">
+    <div class="userinfo-panel">
+      <img src="{{ headurl }}" alt="头像" class="avatar">
+      <p class="userinfo">{{ nickname }}</p>
+      <p class="user-id">ID:&nbsp;{{ people_id }}</p>
+    </div>
+    <p class="leaguer-grade">
+      {{if (vipType === 1)}}初级会员{{else if (vipType === 2)}}高级会员{{else if (vipType === 0)}}<span style="color: #999999">未开通会员</span>{{/if}}
+    </p>
+  </div>
+  <div class="menu-panel" >
+    {{set vipInfo = formatDate(time) }}
+    <div class="arrow-panel" onclick="location.href='/followorder/person/returnVip'">
+      <div class="arrow-left my-leaguer">我的会员</div>
+      <div class="arrow-right">{{ vipInfo.message }}</div>
+    </div>
+    <div class="arrow-panel"{{if (vipInfo.type !== 1)}} onclick="location.href='/followorder/strategy/returnDy'"{{/if}}>
+      <div class="arrow-left my-subscribe">我的订阅</div>
+      <div class="arrow-right">{{ (vipInfo.type === 2) ? (dyNumber || 0) : ((vipInfo.type === 1) ? '到期请续费' : '') }}</div>
+    </div>
+    {{if (vipType === 2)}}
+    <div class="arrow-panel"  onclick="location.href='/followorder/seniormember/chooseProduct'">
+      <div class="arrow-left custom-strategy">自定义策略</div>
+    </div>
+    {{/if}}
+    <div class="arrow-panel"{{if (checkType !== 0)}} onclick="location.href='/followorder/person/returnApplication'"{{/if}}>
+      <div class="arrow-left apply-proxy">申请代理</div>
+      {{if (checkType === 0)}}
+      <div class="arrow-right">审核中</div>
+      {{/if}}
+    </div>
+
+    {{if (vipType !== 0)}}
+      <div class="arrow-panel"  onclick="location.href='/followorder/stock_recommend.html'">
+        <div class="arrow-left shares">股票趋势</div>
+      </div>
+    {{/if}}
+
+    <div class="arrow-panel" onclick="location.href='/followorder/setting.html'">
+      <div class="arrow-left setting">设置</div>
+    </div>
+    <div class="arrow-panel" onclick="location.href='/followorder/feedback.html'">
+      <div class="arrow-left feedback">反馈建议</div>
+    </div>
+  </div>
+</body>
+</html>

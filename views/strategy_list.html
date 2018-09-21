@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- IE 浏览器运行最新渲染模式(win10, IE 10) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 浏览器运行高速模式, 针对国内所谓的双核浏览器 -->
+  <meta name="renderer" content="webkit">
+  <!-- 兼容移动设备 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="策略大厅, 我的订阅"/>
+  <link rel="shortcut icon" href="http://oyogbl12f.bkt.clouddn.com/favicon.ico" type="image/x-icon">
+  <title>{{if (type === 0)}}策略大厅{{else if (type === 1)}}我的策略{{/if}}</title>
+  <link rel="stylesheet" href="/followorder/styles/strategy_list.css">
+</head>
+<body>
+<div class="strategy-list">
+  {{each list}}
+  <div class="item" onclick="location.href='/followorder/strategy/returnDetail?nameNum={{$value.nameNum}}'">
+    <div class="title-row">
+      <div class="title">
+        <span class="no{{if ($index > 2 && type === 0)}} no-last{{/if}}">{{ $index + 1 }}</span>
+        {{ name($value.name) }}
+      </div>
+      <button class="btn btn-normal{{if isSubscribed(time, $value.nameNum)}} btn-disabled{{/if}}"
+      data-d="{{type}}_{{$value.nameNum}}"{{if isSubscribed(time, $value.nameNum)}} disabled{{/if}}>
+      {{ subscribeText(type, time, $value.nameNum) }}
+      </button>
+
+    </div>
+    <div class="info-row">
+      <div class="info-col" id="chart{{ $index }}"></div>
+      <div class="info-col">
+        <div>{{ get($value.nameNum, 'z') }}<p class="label">策略综合能力</p></div>
+        <div>{{ get($value.nameNum, 'week').toFixed(0) }}周<p class="label">策略运行周期</p></div>
+      </div>
+      <div class="info-col">
+        <div>{{ get($value.nameNum, 'x').toFixed(2) }}<p class="label">夏普比率</p></div>
+        <div>{{ $value.aveTimes }}&nbsp;小时<p class="label">平均持仓时间</p></div>
+      </div>
+      <div class="info-col">
+        <div>{{ get($value.nameNum, 'yk') }}点<p class="label">近一周盈亏点数</p></div>
+        <div>{{ $value.dypeople }}<p class="label">订阅人数</p></div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  {{if (type === 1 && (!list || list.length <= 0))}}
+  <p style="text-align: center">没有已订阅的策略</p>
+  {{/if}}
+</div>
+<script src="https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.simple.min.js"></script>
+<script src="/followorder/js/axreq.min.js"></script>
+<script>
+    var pics = {{@ stringify(pics) }};
+</script>
+<script src="/followorder/js/strategy_list.js"></script>
+</button>
+</body>
+</html>
